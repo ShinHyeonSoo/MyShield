@@ -12,10 +12,13 @@ public class GameManager : MonoBehaviour
     public GameObject _EndPanel;
     public Text _TimeText;
     public Text _NowScore;
+    public Text _BestScore;
 
     bool _IsPlay = true;
 
     float _Time = 0.0f;
+
+    string _Key = "bestScore";
 
     private void Awake()
     {
@@ -50,6 +53,27 @@ public class GameManager : MonoBehaviour
         _IsPlay = false;
         Time.timeScale = 0.0f;
         _NowScore.text = _Time.ToString("N2");
+
+        if(PlayerPrefs.HasKey(_Key))
+        {
+            float best = PlayerPrefs.GetFloat(_Key);
+
+            if (best < _Time)
+            {
+                PlayerPrefs.SetFloat(_Key, _Time);
+                _BestScore.text = _Time.ToString("N2");
+            }
+            else
+            {
+                _BestScore.text = best.ToString("N2");
+            }
+        }
+        else
+        {
+            PlayerPrefs.SetFloat(_Key, _Time);
+            _BestScore.text = _Time.ToString("N2");
+        }
+
         _EndPanel.SetActive(true);
     }
 }
