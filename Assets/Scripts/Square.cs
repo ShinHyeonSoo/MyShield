@@ -17,17 +17,16 @@ public class Square : MonoBehaviour
         transform.localScale = new Vector2(size, size);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.CompareTag("Player"))
         {
             GameManager._Instance.GameOver();
+        }
+
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            Destroy(gameObject);
         }
     }
 }
